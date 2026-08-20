@@ -18748,3 +18748,2029 @@
   font-size: 0.7rem;
   color: #94a3b8;
 }
+
+/* ============================================================
+   CARE ASSISTANT GLOBAL TOGGLE & DISABLED STATE STYLES
+   ============================================================ */
+
+.ehr-ca-header-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 16px;
+}
+
+.ehr-ca-header-right {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  min-width: 100px;
+  justify-content: flex-end;
+}
+
+/* Global Switch Control (~32px height, restrained switch styling) */
+.ehr-global-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  height: 30px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.ehr-global-switch-btn.is-enabled {
+  background: #f0fdf4;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+  color: #059669;
+}
+
+.ehr-global-switch-btn.is-enabled:hover {
+  background: #dcfce7;
+  border-color: #059669;
+}
+
+.ehr-global-switch-btn.is-enabled .ehr-switch-indicator-dot {
+  width: 6px;
+  height: 6px;
+  background: #059669;
+  border-radius: 50%;
+}
+
+.ehr-global-switch-btn.is-disabled {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+}
+
+.ehr-global-switch-btn.is-disabled:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #334155;
+}
+
+.ehr-global-switch-btn.is-disabled .ehr-switch-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid #94a3b8;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+/* Globally Disabled Empty / Prompt View */
+.ehr-ca-disabled-view {
+  padding: 40px 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.ehr-ca-disabled-heading {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.ehr-ca-disabled-desc {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0 0 18px 0;
+  max-width: 440px;
+  line-height: 1.45;
+}
+
+.ehr-ca-btn-turn-on {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 7px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ehr-ca-btn-turn-on:hover {
+  background: #1d4ed8;
+}
+
+/* Lightweight Confirmation Modal */
+.ehr-ca-confirm-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.ehr-ca-confirm-dialog {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 22px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.ehr-ca-confirm-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.ehr-ca-confirm-desc {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.ehr-ca-confirm-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ehr-ca-confirm-btn-cancel {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.ehr-ca-confirm-btn-cancel:hover {
+  background: #f1f5f9;
+}
+
+.ehr-ca-confirm-btn-danger {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ehr-ca-confirm-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ============================================================
+   IN-CONTEXT HEADER CONFIRMATION (NO MODAL INSIDE MODAL)
+   ============================================================ */
+
+.ehr-header-inline-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+
+.ehr-confirm-question {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #991b1b;
+}
+
+.ehr-confirm-subtext {
+  font-size: 0.66rem;
+  color: #b91c1c;
+  margin-bottom: 4px;
+}
+
+.ehr-confirm-btns-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ehr-confirm-btn-cancel {
+  background: transparent;
+  border: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.ehr-confirm-btn-cancel:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.ehr-confirm-btn-turnoff {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ehr-confirm-btn-turnoff:hover {
+  background: #b91c1c;
+}
+
+/* ============================================================
+   CARE ASSISTANT COMPACT SWITCH & BOTTOM SNACKBAR (NO MODALS)
+   ============================================================ */
+
+/* Header Right Area */
+.ehr-ca-header-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  height: 28px;
+}
+
+/* SaaS Standard Toggle Switch (Clean, compact 52x24px switch) */
+.ehr-saas-toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 52px;
+  height: 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.ehr-saas-toggle-switch.is-on {
+  background: #059669;
+}
+
+.ehr-saas-toggle-switch.is-off {
+  background: #cbd5e1;
+}
+
+.ehr-saas-toggle-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  z-index: 1;
+  transition: opacity 0.2s ease;
+}
+
+.ehr-saas-toggle-switch.is-on .ehr-saas-toggle-label {
+  margin-left: 2px;
+}
+
+.ehr-saas-toggle-switch.is-off .ehr-saas-toggle-label {
+  margin-left: auto;
+  margin-right: 2px;
+  color: #475569;
+}
+
+.ehr-saas-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ehr-saas-toggle-switch.is-on .ehr-saas-toggle-thumb {
+  left: 2px;
+  transform: translateX(28px);
+}
+
+.ehr-saas-toggle-switch.is-off .ehr-saas-toggle-thumb {
+  left: 2px;
+  transform: translateX(0);
+}
+
+/* Bottom Snackbar Toast with Undo */
+.ehr-ca-bottom-snackbar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 320px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ehr-snackbar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ehr-snackbar-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.ehr-snackbar-subtitle {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.ehr-snackbar-undo-btn {
+  background: #334155;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ehr-snackbar-undo-btn:hover {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+/* ============================================================
+   CARE ASSISTANT VIEW CHAT EYE ICON & CONVERSATION BANNER
+   ============================================================ */
+
+/* View Chat Eye Button */
+.ehr-view-chat-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ehr-action-icon-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.ehr-action-icon-btn:hover {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+/* Tooltip on Hover */
+.ehr-view-chat-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 20;
+}
+
+.ehr-view-chat-wrap:hover .ehr-view-chat-tooltip,
+.ehr-action-icon-btn:focus .ehr-view-chat-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Context Banner inside Ask AI */
+.ehr-chat-context-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.ehr-chat-back-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.ehr-chat-back-btn:hover {
+  background: #eff6ff;
+  text-decoration: underline;
+}
+
+.ehr-chat-context-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ehr-chat-context-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ehr-chat-context-sub {
+  font-size: 0.68rem;
+  color: #64748b;
+}
+
+.ehr-chat-view-all-btn {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ehr-chat-view-all-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* Care Assistant & Client Bubble Headers */
+.ehr-ca-bubble-header {
+  margin-bottom: 3px;
+}
+
+.ehr-ca-bubble-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.02em;
+}
+
+.ehr-client-bubble-header {
+  margin-bottom: 3px;
+  text-align: right;
+}
+
+.ehr-client-bubble-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+/* ============================================================
+   CARE ASSISTANT VIEW CHAT — FULL CHAT LANDING & SUBTLE HIGHLIGHT
+   ============================================================ */
+
+/* Subtle top indicator inside Ask AI when jumping from Care Assistant */
+.ehr-chat-jumping-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 6px 14px;
+  font-size: 0.72rem;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.ehr-chat-jumping-indicator strong {
+  color: #0f172a;
+}
+
+.ehr-chat-indicator-dismiss {
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.ehr-chat-indicator-dismiss:hover {
+  color: #0f172a;
+}
+
+/* Subtle border highlight for target message */
+.copilot-bubble-row.ehr-msg-highlighted .copilot-chat-bubble-content {
+  border-left: 3px solid #2563eb;
+  background: #eff6ff;
+  transition: all 0.3s ease;
+}
+
+/* ============================================================
+   CARE ASSISTANT IN-CONTEXT CHAT PREVIEW MODAL
+   ============================================================ */
+
+.ehr-chat-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.ehr-chat-modal-dialog {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  width: 640px;
+  max-width: calc(100vw - 32px);
+  height: 520px;
+  max-height: calc(100vh - 48px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Modal Header */
+.ehr-chat-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.ehr-chat-modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ehr-modal-icon-wrap {
+  width: 32px;
+  height: 32px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  flex-shrink: 0;
+}
+
+.ehr-chat-modal-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ehr-modal-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.ehr-modal-subtitle {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.ehr-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.ehr-modal-close-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Modal Body */
+.ehr-chat-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fafbfc;
+}
+
+.ehr-modal-bubble-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 82%;
+  transition: background 0.2s ease;
+}
+
+.ehr-modal-bubble-row.ai,
+.ehr-modal-bubble-row.care-assistant {
+  align-self: flex-start;
+}
+
+.ehr-modal-bubble-row.client {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.ehr-modal-sender-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 3px;
+  margin-left: 2px;
+}
+
+.ehr-modal-client-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 3px;
+  margin-right: 2px;
+}
+
+.ehr-modal-bubble {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ehr-modal-bubble-row.ai .ehr-modal-bubble,
+.ehr-modal-bubble-row.care-assistant .ehr-modal-bubble {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.ehr-modal-bubble-row.client .ehr-modal-bubble {
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  color: #1e3a8a;
+}
+
+.ehr-modal-bubble-row.is-target-highlight .ehr-modal-bubble {
+  border-left: 3.5px solid #2563eb;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  border-left-color: #2563eb;
+}
+
+.ehr-modal-bubble-text {
+  word-break: break-word;
+}
+
+.ehr-modal-bubble-time {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  align-self: flex-end;
+}
+
+/* Modal Footer */
+.ehr-chat-modal-footer {
+  padding: 10px 18px;
+  border-top: 1px solid #f1f5f9;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ehr-modal-footer-note {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+/* Scale-up animation */
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+/* ============================================================
+   CARE ASSISTANT IN-CONTEXT CHAT PREVIEW MODAL — SIZED TO COPILOT
+   ============================================================ */
+
+.ehr-ca-layout {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  background: #ffffff;
+  padding: 20px 24px;
+  font-family: var(--font-family-sans);
+  box-sizing: border-box;
+}
+
+.ehr-chat-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.ehr-chat-modal-dialog {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  width: 540px;
+  max-width: 90vw;
+  height: 420px;
+  max-height: 75vh;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  z-index: 1001;
+}
+
+.ehr-chat-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.ehr-modal-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.ehr-modal-subtitle {
+  font-size: 0.68rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.ehr-chat-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fafbfc;
+}
+
+.ehr-modal-bubble {
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ehr-chat-modal-footer {
+  padding: 8px 14px;
+  border-top: 1px solid #f1f5f9;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   AI CLINICAL COPILOT — REDESIGNED CONVERSATIONAL EXPERIENCE
+   ============================================================ */
+
+.ehr-copilot-welcome-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px 4px 16px 4px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* 1. Hero Introduction */
+.ehr-welcome-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ehr-welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.ehr-welcome-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 4px 0 0 0;
+  letter-spacing: -0.01em;
+}
+
+.ehr-welcome-desc {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* 2. Client Context Card */
+.ehr-client-context-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ehr-ctx-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #edf2f7;
+  padding-bottom: 8px;
+}
+
+.ehr-ctx-client-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ehr-ctx-tag {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.ehr-ctx-client-name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ehr-ctx-ca-link {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ehr-ctx-ca-link:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.ehr-ctx-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ehr-ctx-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ehr-ctx-lbl {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.ehr-ctx-val {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* 3. Starting Insight Box */
+.ehr-starting-insight-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3.5px solid #3b82f6;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ehr-insight-lbl {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #3b82f6;
+}
+
+.ehr-insight-text {
+  font-size: 0.76rem;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* 4. What would you like to explore? Grid */
+.ehr-starters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.ehr-starters-heading {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.ehr-starters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ehr-starter-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ehr-starter-card:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.ehr-starter-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ehr-starter-sub {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+/* Contextual Next-Step Actions under AI responses */
+.ehr-contextual-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  margin-left: 4px;
+  flex-wrap: wrap;
+}
+
+.ehr-ctx-action-hint {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.ehr-ctx-action-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ehr-ctx-action-btn:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+/* Clean Input Bar override */
+.ehr-copilot-input-bar {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================================
+   WHAT WOULD YOU LIKE TO EXPLORE? CARDS ABOVE COMPOSER
+   ============================================================ */
+
+.ehr-starters-section-chat-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.ehr-starters-section-chat-bottom .ehr-starters-heading {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.ehr-starters-section-chat-bottom .ehr-starters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.ehr-starters-section-chat-bottom .ehr-starter-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  padding: 8px 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ehr-starters-section-chat-bottom .ehr-starter-card:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.ehr-starters-section-chat-bottom .ehr-starter-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ehr-starters-section-chat-bottom .ehr-starter-sub {
+  font-size: 0.68rem;
+  color: #64748b;
+}
+
+/* ============================================================
+   WHAT WOULD YOU LIKE TO EXPLORE? CARDS IN CENTER OF CHAT
+   ============================================================ */
+
+.ehr-starters-section-chat-center {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 18px auto;
+  max-width: 620px;
+  width: 100%;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.ehr-starters-section-chat-center .ehr-starters-heading {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.ehr-starters-section-chat-center .ehr-starters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ehr-starters-section-chat-center .ehr-starter-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.ehr-starters-section-chat-center .ehr-starter-card:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+}
+
+.ehr-starters-section-chat-center .ehr-starter-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ehr-starters-section-chat-center .ehr-starter-sub {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+/* ============================================================
+   COMPREHENSIVE MOBILE & SMALL-WINDOW RESPONSIVENESS OVERRIDES
+   ============================================================ */
+
+@media screen and (max-width: 860px) {
+  /* Copilot Modal Container */
+  .copilot-workspace-modal,
+  .copilot-modal,
+  .clinical-copilot-modal {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    height: 90vh !important;
+    max-height: 90vh !important;
+    border-radius: 12px !important;
+  }
+
+  /* Top Dev Toggle Bar */
+  .copilot-dev-toggle-bar {
+    padding: 6px 12px !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .copilot-dev-toggle-label {
+    font-size: 0.65rem !important;
+  }
+
+  .copilot-dev-toggle-btn {
+    padding: 3px 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  /* Copilot Tabs Bar */
+  .copilot-tabs-bar {
+    padding: 6px 10px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .copilot-tabs-list-wrapper {
+    gap: 4px !important;
+  }
+
+  .copilot-tab-btn {
+    padding: 5px 10px !important;
+    font-size: 0.74rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* Centered Exploration Cards Grid */
+  .ehr-starters-section-chat-center {
+    padding: 0 4px !important;
+  }
+
+  .ehr-starters-section-chat-center .ehr-starters-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+
+  .ehr-starters-section-chat-center .ehr-starter-card {
+    padding: 8px 10px !important;
+  }
+
+  .ehr-starters-section-chat-center .ehr-starter-title {
+    font-size: 0.72rem !important;
+  }
+
+  .ehr-starters-section-chat-center .ehr-starter-sub {
+    font-size: 0.65rem !important;
+  }
+
+  /* Care Assistant Workspace */
+  .ehr-ca-layout {
+    padding: 14px 14px !important;
+  }
+
+  .ehr-ca-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .ehr-ca-header-right {
+    align-self: flex-start !important;
+  }
+
+  .ehr-ca-row-main {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .ehr-ca-row-actions {
+    margin-left: auto !important;
+  }
+
+  /* Chat Modal Preview */
+  .ehr-preview-dialog,
+  .ehr-chat-modal-dialog {
+    width: 95% !important;
+    max-width: 95% !important;
+    height: 80vh !important;
+    max-height: 80vh !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* Full screen-ish modal on mobile */
+  .copilot-workspace-modal,
+  .copilot-modal,
+  .clinical-copilot-modal {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  /* Exploration Cards 1-column on mobile */
+  .ehr-starters-section-chat-center .ehr-starters-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+
+  /* Chat Bubbles */
+  .copilot-bubble-row {
+    max-width: 92% !important;
+  }
+
+  .copilot-chat-bubble-content {
+    padding: 8px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Contextual next steps row */
+  .ehr-contextual-actions-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+
+  .ehr-ctx-action-btn {
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  /* Bottom Suggested Action Chips Bar */
+  .suggested-prompts-row-wrapper {
+    padding: 4px 6px !important;
+  }
+
+  .suggested-prompt-chip {
+    padding: 4px 8px !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Composer bar */
+  .copilot-chat-input-bar {
+    padding: 4px 8px !important;
+  }
+
+  .copilot-chat-textbox {
+    font-size: 0.78rem !important;
+  }
+
+  /* Care Assistant Rows */
+  .ehr-ca-row {
+    padding: 8px 10px !important;
+  }
+
+  .ehr-ca-row-left {
+    gap: 8px !important;
+  }
+
+  .ehr-ca-icon-wrap {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .ehr-ca-row-name {
+    font-size: 0.78rem !important;
+  }
+
+  .ehr-ca-row-sched,
+  .ehr-ca-row-purpose {
+    font-size: 0.68rem !important;
+  }
+
+  /* Inline edit selects */
+  .ehr-edit-selects-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 4px !important;
+  }
+
+  .ehr-select {
+    width: 100% !important;
+  }
+
+  .ehr-edit-actions {
+    width: 100% !important;
+    justify-content: flex-end !important;
+  }
+
+  /* Bottom snackbar */
+  .ehr-ca-bottom-snackbar {
+    min-width: calc(100% - 24px) !important;
+    bottom: 12px !important;
+    padding: 8px 12px !important;
+    flex-direction: row !important;
+  }
+
+  .ehr-snackbar-title {
+    font-size: 0.74rem !important;
+  }
+
+  .ehr-snackbar-subtitle {
+    font-size: 0.66rem !important;
+  }
+}
+
+/* ============================================================
+   ULTRA-POLISHED MOBILE RESPONSIVENESS (320px - 768px)
+   ============================================================ */
+
+@media screen and (max-width: 680px) {
+  /* 1. Header of the provider chat: don't squish Ketan & AI Copilot button */
+  .chat-header {
+    padding: 8px 10px !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .chat-header-left {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+
+  .chat-header-user-info {
+    min-width: 0 !important;
+  }
+
+  .chat-header-name {
+    font-size: 0.88rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .chat-header-status {
+    display: none !important; /* Hide '0 sessions' on very small screens to save space */
+  }
+
+  .chat-header-copilot-btn {
+    padding: 4px 8px !important;
+    font-size: 0.72rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .chat-header-actions {
+    gap: 2px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .chat-header-action-btn {
+    padding: 4px !important;
+  }
+
+  /* 2. AI Clinical Copilot Modal: full viewport, clean headers */
+  .copilot-workspace-modal,
+  .copilot-modal,
+  .clinical-copilot-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 9999 !important;
+  }
+
+  .copilot-modal-header {
+    padding: 10px 12px !important;
+  }
+
+  .copilot-dev-toggle-bar {
+    padding: 6px 10px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+
+  .copilot-tabs-bar {
+    padding: 6px 8px !important;
+    overflow-x: auto !important;
+  }
+
+  .copilot-tabs-list-wrapper {
+    width: 100% !important;
+    display: flex !important;
+  }
+
+  .copilot-tab-btn {
+    flex: 1 !important;
+    padding: 6px 8px !important;
+    font-size: 0.72rem !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  /* 3. Ask AI: Welcome & Contextual Actions Layout */
+  .copilot-workspace-chat-log {
+    padding: 10px 10px !important;
+    gap: 10px !important;
+  }
+
+  .copilot-bubble-row {
+    max-width: 100% !important;
+    flex-direction: column !important;
+  }
+
+  .copilot-chat-bubble-content {
+    max-width: 100% !important;
+    padding: 8px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Contextual next steps: below bubble, not floating right */
+  .ehr-contextual-actions-row {
+    margin-top: 6px !important;
+    margin-left: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    width: 100% !important;
+  }
+
+  .ehr-ctx-action-btn {
+    width: 100% !important;
+    text-align: left !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Centered exploration cards on mobile */
+  .ehr-starters-section-chat-center {
+    margin: 12px 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .ehr-starters-section-chat-center .ehr-starters-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+
+  .ehr-starters-section-chat-center .ehr-starter-card {
+    padding: 8px 10px !important;
+  }
+
+  /* 4. Care Assistant Tab on Mobile */
+  .ehr-ca-layout {
+    padding: 12px 10px !important;
+  }
+
+  .ehr-ca-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .ehr-ca-title {
+    font-size: 0.95rem !important;
+  }
+
+  .ehr-ca-subtitle {
+    font-size: 0.72rem !important;
+  }
+
+  .ehr-saas-toggle-switch {
+    margin-top: 2px !important;
+  }
+
+  .ehr-ca-sec-header {
+    margin-bottom: 8px !important;
+  }
+
+  .ehr-ca-row {
+    padding: 10px 10px !important;
+    gap: 6px !important;
+  }
+
+  .ehr-ca-row-main {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .ehr-ca-row-left {
+    width: 100% !important;
+    align-items: flex-start !important;
+  }
+
+  .ehr-ca-row-text {
+    flex: 1 !important;
+  }
+
+  .ehr-ca-row-title-line {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .ehr-ca-row-actions {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    padding-top: 6px !important;
+    border-top: 1px dashed #f1f5f9 !important;
+    gap: 8px !important;
+  }
+
+  .ehr-btn-add {
+    align-self: flex-end !important;
+  }
+
+  /* 5. Mobile Composer Controls */
+  .copilot-workspace-input-controls {
+    padding: 6px 10px 10px 10px !important;
+    background: #ffffff !important;
+  }
+
+  .suggested-prompts-row-wrapper {
+    padding: 0 0 6px 0 !important;
+  }
+
+  .suggested-prompts-scroller {
+    gap: 5px !important;
+  }
+
+  .suggested-prompt-chip {
+    padding: 4px 8px !important;
+    font-size: 0.68rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .copilot-chat-input-bar {
+    padding: 4px 6px !important;
+  }
+
+  .copilot-chat-textbox {
+    font-size: 0.78rem !important;
+  }
+}
+
+/* ============================================================
+   CONVERSATION HEADER MOBILE FIXES
+   ============================================================ */
+
+@media screen and (max-width: 600px) {
+  .conversation-header {
+    padding: 8px 10px !important;
+    gap: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  .header-profile-section {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .header-profile-info {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+
+  .header-name-row {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 4px !important;
+    overflow: hidden !important;
+  }
+
+  .header-name {
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .view-profile-link {
+    font-size: 0.65rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .header-sessions {
+    display: none !important;
+  }
+
+  .header-actions-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .copilot-action-btn {
+    padding: 4px 8px !important;
+    font-size: 0.72rem !important;
+    height: 30px !important;
+    border-radius: 15px !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+  }
+
+  .copilot-action-btn .copilot-btn-icon {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .action-icon-btn {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 4px !important;
+  }
+
+  .action-icon-btn svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+}
+
+/* ============================================================
+   CARE ASSISTANT MOBILE POLISH — HIGH-DENSITY SAAS ROWS
+   ============================================================ */
+
+@media screen and (max-width: 600px) {
+  /* 1. Header & Global Switch in one stable horizontal row */
+  .ehr-ca-layout {
+    padding: 12px 12px !important;
+  }
+
+  .ehr-ca-header {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .ehr-ca-header-left {
+    flex: 1 1 auto !important;
+  }
+
+  .ehr-ca-title {
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+  }
+
+  .ehr-ca-subtitle {
+    font-size: 0.68rem !important;
+    line-height: 1.35 !important;
+    color: #64748b !important;
+    margin-top: 2px !important;
+  }
+
+  .ehr-ca-header-right {
+    flex-shrink: 0 !important;
+  }
+
+  .ehr-saas-toggle-switch {
+    width: 50px !important;
+    height: 24px !important;
+  }
+
+  .ehr-saas-toggle-label {
+    font-size: 0.62rem !important;
+  }
+
+  .ehr-saas-toggle-thumb {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* 2. Section Titles */
+  .ehr-ca-sec-header {
+    margin-bottom: 8px !important;
+  }
+
+  .ehr-ca-sec-title {
+    font-size: 0.66rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .ehr-ca-sec-count {
+    font-size: 0.68rem !important;
+  }
+
+  /* 3. Row Cards — Single Scannable Row on Mobile */
+  .ehr-ca-row {
+    padding: 8px 10px !important;
+    border-radius: 8px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .ehr-ca-row-main {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    width: 100% !important;
+  }
+
+  .ehr-ca-row-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+
+  .ehr-ca-icon-wrap {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .ehr-ca-icon-wrap svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .ehr-ca-row-text {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
+  }
+
+  .ehr-ca-row-title-line {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+  }
+
+  .ehr-ca-row-name {
+    font-size: 0.76rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .ehr-status-dot-label {
+    font-size: 0.64rem !important;
+    padding: 1px 5px !important;
+    gap: 3px !important;
+  }
+
+  .ehr-status-dot-label .ehr-dot {
+    width: 4px !important;
+    height: 4px !important;
+  }
+
+  .ehr-ca-row-sched {
+    font-size: 0.66rem !important;
+    color: #64748b !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .ehr-ca-row-purpose {
+    font-size: 0.66rem !important;
+    color: #64748b !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Actions — Right-aligned compact cluster */
+  .ehr-ca-row-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    flex-shrink: 0 !important;
+    border-top: none !important;
+    padding-top: 0 !important;
+    width: auto !important;
+  }
+
+  .ehr-view-chat-wrap {
+    display: inline-flex !important;
+  }
+
+  .ehr-action-icon-btn {
+    padding: 3px !important;
+    border-radius: 4px !important;
+  }
+
+  .ehr-action-icon-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .ehr-action-btn {
+    font-size: 0.68rem !important;
+    padding: 2px 4px !important;
+  }
+
+  .ehr-action-sep {
+    font-size: 0.65rem !important;
+    margin: 0 1px !important;
+  }
+
+  .ehr-btn-add {
+    font-size: 0.68rem !important;
+    padding: 3px 8px !important;
+    height: 24px !important;
+    border-radius: 5px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 4. Chat Modal Preview on Mobile */
+  .ehr-chat-modal-backdrop,
+  .ehr-preview-backdrop {
+    padding: 10px !important;
+  }
+
+  .ehr-chat-modal-dialog,
+  .ehr-preview-dialog {
+    width: 100% !important;
+    height: 85vh !important;
+    max-height: 85vh !important;
+    border-radius: 10px !important;
+  }
+}

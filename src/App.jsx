@@ -32,6 +32,7 @@ import {
   Award,
   MapPin,
   Sparkles,
+  ArrowRight,
   Brain,
   Loader2,
   FileText,
@@ -80,6 +81,7 @@ function App() {
 
   // State for UX Mode & Automations
   const [uxMode, setUxMode] = useState('aichat')
+  const [globalCareAssistantEnabled, setGlobalCareAssistantEnabled] = useState(true)
   const [automations, setAutomations] = useState([
     { id: 1, name: 'Medication Reminder', status: 'Active', frequency: 'Daily · 8:00 AM', schedule: 'Daily · 8:00 AM' },
     { id: 2, name: 'Daily Mood Check-in', status: 'Active', frequency: 'Every evening · 8:00 PM', schedule: 'Every evening · 8:00 PM' },
@@ -101,7 +103,8 @@ function App() {
   
 
   
-  const [copilotTab, setCopilotTab] = useState('ask-ai')  // 'overview' | 'ask-ai'
+  const [copilotTab, setCopilotTab] = useState('ask-ai')
+  const [chatFilter, setChatFilter] = useState(null)  // 'overview' | 'ask-ai'
   const [isPremium, setIsPremium] = useState(true) // Premium toggle state
   const [upsellModalOpen, setUpsellModalOpen] = useState(false) // Premium upsell modal state
   const [copilotLoading, setCopilotLoading] = useState(false)
@@ -112,7 +115,7 @@ function App() {
       id: 'welcome',
       sender: 'ai',
       text: "Hello. I've analyzed this client's records.\n\nAsk me anything about this client or use one of the suggested actions below.",
-      time: 'Just now',
+      time: '9:00 AM'
     }
   ])
   const [isCopilotThinking, setIsCopilotThinking] = useState(false)
@@ -1819,7 +1822,7 @@ function App() {
                     <div className="copilot-tabs-list-wrapper">
                       <button role="tab" className={`copilot-tab-btn ${(copilotTab === 'overview' || copilotTab === 'ai-summary') ? 'active' : ''}`} onClick={() => setCopilotTab('overview')}>Clinical Snapshot</button>
                       <button role="tab" className={`copilot-tab-btn ${copilotTab === 'ask-ai' ? 'active' : ''}`} onClick={() => setCopilotTab('ask-ai')}>Ask AI</button>
-                      <button role="tab" className={`copilot-tab-btn ${copilotTab === 'care-plan' || copilotTab === 'treatment-plans' ? 'active' : ''}`} onClick={() => setCopilotTab('care-plan')}>Care Plan</button>
+                      
                       
                       {/* 4th Tab visible in Separate Mode */}
                       {uxMode === 'separate' && (
@@ -1855,22 +1858,167 @@ function App() {
                   {copilotTab === 'ask-ai' && (
                     <div className="copilot-tab-panel copilot-ask-ai-panel" role="tabpanel">
 
-                      {/* Chat log - 100% clean conversation */}
-                      <div className="copilot-workspace-chat-log">
-                        {copilotChat.map((msg) => (
-                          <div key={msg.id || msg.text} className={`copilot-bubble-row ${msg.sender}`}>
-                            <div className="copilot-chat-bubble-content">
-                              {msg.sender === 'ai' ? (
-                                <div className="bubble-markdown-rendered">
-                                  {renderMarkdown(msg.text)}
+                      {/* Chat log */}
+                      <div className="copilot-workspace-chat-log" id="copilot-chat-scroller">
+                        {copilotChat.map((msg, index) => {
+                          const isLastAi = msg.sender === 'ai' && index === copilotChat.length - 1 && copilotChat.length > 1;
+                          const textLower = (msg.text || '').toLowerCase();
+                          
+                          // Determine relevant actions based on message topic
+                          const isSessionPlan = textLower.includes('session plan') || textLower.includes('mindfulness') || textLower.includes('cbt') || textLower.includes('homework');
+                          const isTreatmentPlan = textLower.includes('treatment plan') || textLower.includes('diagnosis') || textLower.includes('goal');
+                          const isProgressOrConcern = textLower.includes('anxiety') || textLower.includes('progress') || textLower.includes('score') || textLower.includes('phq');
+
+                          return (
+                            <div key={msg.id || msg.text} className={`copilot-bubble-row ${msg.sender}`}>
+                              <div className="copilot-chat-bubble-content">
+                                {msg.sender === 'ai' ? (
+                                  <div className="bubble-markdown-rendered">
+                                    {renderMarkdown(msg.text)}
+                                  </div>
+                                ) : (
+                                  <div className="bubble-text">{msg.text}</div>
+                                )}
+                                <span className="bubble-time-stamp">{msg.time}</span>
+                              </div>
+
+                              {/* ── Relevant Contextual Next Steps under AI Response ── */}
+                              {isLastAi && (
+                                <div className="ehr-contextual-actions-row animate-fadeIn">
+                                  <span className="ehr-ctx-action-hint">Suggested next steps:</span>
+                                  
+                                  {isSessionPlan ? (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => setTreatmentPlanOpen(true)}
+                                      >
+                                        ✨ Generate Treatment Plan
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => handleCopilotChatSubmit("Draft homework assignment for Ketan based on this session plan")}
+                                      >
+                                        Assign Homework Activity
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => handleCopilotChatSubmit("Generate SOAP note for this session")}
+                                      >
+                                        Generate SOAP Note
+                                      </button>
+                                    </>
+                                  ) : isTreatmentPlan ? (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => setTreatmentPlanOpen(true)}
+                                      >
+                                        ✨ Open Treatment Plan Studio
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => handleCopilotChatSubmit("Prepare session plan for Ketan")}
+                                      >
+                                        Prepare Session Plan
+                                      </button>
+                                    </>
+                                  ) : isProgressOrConcern ? (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => handleCopilotChatSubmit("Prepare a structured session plan for Ketan")}
+                                      >
+                                        Prepare Session Plan
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => setTreatmentPlanOpen(true)}
+                                      >
+                                        ✨ Generate Treatment Plan
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => handleCopilotChatSubmit("Recommend screening tools for Ketan")}
+                                      >
+                                        Screening Tools
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => setTreatmentPlanOpen(true)}
+                                      >
+                                        ✨ Generate Treatment Plan
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="ehr-ctx-action-btn"
+                                        onClick={() => handleCopilotChatSubmit("Prepare a structured session plan for Ketan")}
+                                      >
+                                        Prepare Session Plan
+                                      </button>
+                                    </>
+                                  )}
                                 </div>
-                              ) : (
-                                <div className="bubble-text">{msg.text}</div>
                               )}
-                              <span className="bubble-time-stamp">{msg.time}</span>
+                            </div>
+                          );
+                        })}
+
+                        {/* ── WHAT WOULD YOU LIKE TO EXPLORE? CARDS IN CENTER OF CHAT (When only initial welcome message is shown) ── */}
+                        {copilotChat.length <= 1 && (
+                          <div className="ehr-starters-section-chat-center animate-fadeIn">
+                            <span className="ehr-starters-heading">WHAT WOULD YOU LIKE TO EXPLORE?</span>
+                            <div className="ehr-starters-grid">
+                              <button
+                                type="button"
+                                className="ehr-starter-card"
+                                onClick={() => handleCopilotChatSubmit("What has changed recently in Ketan's progress?")}
+                              >
+                                <span className="ehr-starter-title">Understand recent progress</span>
+                                <span className="ehr-starter-sub">"What has changed recently?"</span>
+                              </button>
+
+                              <button
+                                type="button"
+                                className="ehr-starter-card"
+                                onClick={() => handleCopilotChatSubmit("What should I focus on in Ketan's next session?")}
+                              >
+                                <span className="ehr-starter-title">Prepare for next session</span>
+                                <span className="ehr-starter-sub">"What should I focus on?"</span>
+                              </button>
+
+                              <button
+                                type="button"
+                                className="ehr-starter-card"
+                                onClick={() => handleCopilotChatSubmit("Why might Ketan's anxiety be increasing?")}
+                              >
+                                <span className="ehr-starter-title">Explore a concern</span>
+                                <span className="ehr-starter-sub">"Why is anxiety increasing?"</span>
+                              </button>
+
+                              <button
+                                type="button"
+                                className="ehr-starter-card"
+                                onClick={() => handleCopilotChatSubmit("What clinical patterns do you see in Ketan's history?")}
+                              >
+                                <span className="ehr-starter-title">Review client history</span>
+                                <span className="ehr-starter-sub">"What patterns do you see?"</span>
+                              </button>
                             </div>
                           </div>
-                        ))}
+                        )}
                         {isCopilotThinking && (
                           <div className="copilot-bubble-row ai thinking">
                             <div className="copilot-chat-bubble-content">
@@ -1885,18 +2033,10 @@ function App() {
                         <div ref={copilotEndRef} />
                       </div>
 
-                      {/* Controls / Input area */}
+                      {/* Controls / Suggested prompt chips row + Composer */}
                       <div className="copilot-workspace-input-controls">
                         
-                        {/* Care Assistant Anchored Popover in AI Chat Mode */}
-                        {uxMode === 'aichat' && (
-                          <CareAssistantPopover
-                            automations={automations}
-                            onUpdateAutomation={handleUpdateAutomation}
-                          />
-                        )}
-
-                        {/* Suggested prompt chips */}
+                        {/* Suggested prompt chips horizontal scroller */}
                         <div className="suggested-prompts-row-wrapper">
                           <div className="suggested-prompts-scroller">
                             <button
@@ -1906,11 +2046,12 @@ function App() {
                               ✨ Generate Treatment Plan
                             </button>
                             {[
-                              'Generate SOAP Notes',
+                              'Summarize Progress',
                               'Prepare Session Plan',
-                              'Summarize Client',
-                              'Draft Follow-up',
+                              'Generate SOAP Note',
+                              'Screening Tools',
                               'Recommend Activities',
+                              'Draft Follow-up'
                             ].map((chipText) => (
                               <button
                                 key={chipText}
@@ -1982,21 +2123,11 @@ function App() {
                       {/* Success toast */}
                       {successToast && (
                         <div className="action-success-toast">
-                          <span style={{ fontSize: '0.9rem', lineHeight: 1 }}>✓</span>
+                          <span style={{ fontSize: '0.9rem', lineHeight: 1 }}>✨</span>
                           <span>{successToast}</span>
                         </div>
                       )}
 
-                    </div>
-                  )}
-
-                  {/* ── CARE PLAN TAB ── */}
-                  {copilotTab === 'care-plan' && (
-                    <div className="copilot-tab-panel copilot-care-plan-panel" role="tabpanel">
-                      <TreatmentPlanStudio
-                        onClose={() => setCopilotTab('overview')}
-                        onSendToClient={handleSendTreatmentPlan}
-                      />
                     </div>
                   )}
 
@@ -2007,6 +2138,19 @@ function App() {
                         automations={automations}
                         onUpdateAutomation={handleUpdateAutomation}
                         onToggleStatus={handleToggleAutomationStatus}
+                        globalEnabled={globalCareAssistantEnabled}
+                        onToggleGlobal={setGlobalCareAssistantEnabled}
+                        onViewChat={(auto) => {
+                          const autoType = auto.name.toLowerCase().includes('medication') ? 'medication_reminder' : 'mood_checkin';
+                          setChatFilter({ name: auto.name, type: autoType });
+                          setCopilotTab('ask-ai');
+                          setTimeout(() => {
+                            const targetEl = document.getElementById(`chat-msg-${autoType}`);
+                            if (targetEl) {
+                              targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                          }, 150);
+                        }}
                       />
                     </div>
                   )}
