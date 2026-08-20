@@ -48,16 +48,6 @@ export const DEFAULT_AUTOMATIONS = [
     iconType: 'mood'
   },
   {
-    id: 3,
-    name: 'Session Reminder',
-    purpose: 'Send appointment notification before upcoming sessions.',
-    description: 'Delivers appointment prep and telehealth room link 24 hours ahead to reduce no-shows.',
-    status: 'Off',
-    frequency: '24 hours before appointment',
-    schedule: '24 hours before appointment',
-    iconType: 'calendar'
-  },
-  {
     id: 4,
     name: 'Payment & Renewal Reminder',
     purpose: 'Notify client before upcoming package renewal or invoice due date.',
