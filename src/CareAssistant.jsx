@@ -748,7 +748,7 @@ export default function CareAssistant({
                                 <button
                                   type="button"
                                   className="ehr-btn-add"
-                                  onClick={() => handleStartEnabling(auto)}
+                                  onClick={() => handleStartAdd(auto)}
                                 >
                                   Add
                                 </button>
