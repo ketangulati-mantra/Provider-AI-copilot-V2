@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import {
   Pill,
@@ -20,7 +20,9 @@ import {
   Target,
   HelpCircle,
   Check,
-  RotateCcw
+  RotateCcw,
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react'
 import CareAssistantChatModal from './components/CareAssistantChatModal'
 
@@ -174,8 +176,20 @@ export default function CareAssistant({
   globalEnabled = true,
   onToggleGlobal
 }) {
+  const [internalGlobal, setInternalGlobal] = useState(globalEnabled)
+  const isGlobalOn = onToggleGlobal !== undefined ? globalEnabled : internalGlobal
+
+  // Local automations state so mutations (Pause, Resume, Disable, Add, Edit) update instantly
+  const [localAutomations, setLocalAutomations] = useState(automations)
+
+  // Keep local state in sync if prop changes
+  useEffect(() => {
+    setLocalAutomations(automations)
+  }, [automations])
+
   const [editingId, setEditingId] = useState(null)
   const [enablingId, setEnablingId] = useState(null)
+  const [isAvailableExpanded, setIsAvailableExpanded] = useState(false)
 
   // In-Context Chat Modal State
   const [selectedChatAuto, setSelectedChatAuto] = useState(null)
@@ -212,9 +226,9 @@ export default function CareAssistant({
     )
   }
 
-  // Merge full 14 options
+  // Merge full 14 options from localAutomations
   const currentAutomations = DEFAULT_AUTOMATIONS.map(def => {
-    const found = (automations || []).find(a => a.id === def.id || a.name === def.name)
+    const found = (localAutomations || []).find(a => a.id === def.id || a.name === def.name)
     if (!found) return def
     return {
       ...def,
@@ -264,7 +278,8 @@ export default function CareAssistant({
   }
 
   const handleToggleGlobal = () => {
-    const newState = !globalEnabled
+    const newState = !isGlobalOn
+    setInternalGlobal(newState)
     if (onToggleGlobal) onToggleGlobal(newState)
 
     if (!newState) {
@@ -306,6 +321,13 @@ export default function CareAssistant({
       frequency: computed,
       schedule: computed
     }
+    setLocalAutomations(prev => {
+      const exists = prev.some(a => a.id === auto.id)
+      if (exists) {
+        return prev.map(a => a.id === auto.id ? updated : a)
+      }
+      return [...prev, updated]
+    })
     if (onUpdateAutomation) {
       onUpdateAutomation(updated)
     }
@@ -352,6 +374,13 @@ export default function CareAssistant({
       frequency: enableTiming,
       schedule: enableTiming
     }
+    setLocalAutomations(prev => {
+      const exists = prev.some(a => a.id === auto.id)
+      if (exists) {
+        return prev.map(a => a.id === auto.id ? updated : a)
+      }
+      return [...prev, updated]
+    })
     if (onUpdateAutomation) {
       onUpdateAutomation(updated)
     } else if (onToggleStatus) {
@@ -363,19 +392,35 @@ export default function CareAssistant({
 
   const handleTogglePause = (auto) => {
     const newStatus = auto.status === 'Active' ? 'Paused' : 'Active'
+    const updated = { ...auto, status: newStatus }
+    setLocalAutomations(prev => {
+      const exists = prev.some(a => a.id === auto.id)
+      if (exists) {
+        return prev.map(a => a.id === auto.id ? { ...a, status: newStatus } : a)
+      }
+      return [...prev, updated]
+    })
     if (onToggleStatus) {
       onToggleStatus(auto.id, newStatus)
     } else if (onUpdateAutomation) {
-      onUpdateAutomation({ ...auto, status: newStatus })
+      onUpdateAutomation(updated)
     }
     triggerToast(newStatus === 'Active' ? `${auto.name} resumed` : `${auto.name} paused`)
   }
 
   const handleDisableAutomation = (auto) => {
+    const updated = { ...auto, status: 'Off' }
+    setLocalAutomations(prev => {
+      const exists = prev.some(a => a.id === auto.id)
+      if (exists) {
+        return prev.map(a => a.id === auto.id ? { ...a, status: 'Off' } : a)
+      }
+      return [...prev, updated]
+    })
     if (onToggleStatus) {
       onToggleStatus(auto.id, 'Off')
     } else if (onUpdateAutomation) {
-      onUpdateAutomation({ ...auto, status: 'Off' })
+      onUpdateAutomation(updated)
     }
     triggerToast(`${auto.name} disabled`, 'Moved to available follow-ups')
   }
@@ -413,22 +458,22 @@ export default function CareAssistant({
 
           <div className="ehr-ca-header-right">
             <div
-              className={`ehr-saas-toggle-switch ${globalEnabled ? 'is-on' : 'is-off'}`}
+              className={`ehr-saas-toggle-switch ${isGlobalOn ? 'is-on' : 'is-off'}`}
               onClick={handleToggleGlobal}
               role="switch"
-              aria-checked={globalEnabled}
+              aria-checked={isGlobalOn}
               tabIndex={0}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleToggleGlobal(); } }}
-              title={globalEnabled ? 'Turn off Care Assistant' : 'Turn on Care Assistant'}
+              title={isGlobalOn ? 'Turn off Care Assistant' : 'Turn on Care Assistant'}
             >
-              <span className="ehr-saas-toggle-label">{globalEnabled ? 'ON' : 'OFF'}</span>
+              <span className="ehr-saas-toggle-label">{isGlobalOn ? 'ON' : 'OFF'}</span>
               <span className="ehr-saas-toggle-thumb" />
             </div>
           </div>
         </header>
 
         {/* 2. Body */}
-        {!globalEnabled ? (
+        {!isGlobalOn ? (
           /* GLOBALLY DISABLED STATE */
           <div className="ehr-ca-disabled-view animate-fadeIn">
             <h2 className="ehr-ca-disabled-heading">Care Assistant is turned off for this client.</h2>
@@ -439,6 +484,7 @@ export default function CareAssistant({
               type="button"
               className="ehr-ca-btn-turn-on"
               onClick={() => {
+                setInternalGlobal(true)
                 if (onToggleGlobal) onToggleGlobal(true)
                 triggerToast('Care Assistant enabled', "Your client's configured follow-ups are active again.")
               }}
@@ -449,6 +495,39 @@ export default function CareAssistant({
         ) : (
           /* GLOBALLY ENABLED */
           <>
+            {/* ── CLIENT CHAT SUMMARY (Between Header and Automations) ── */}
+            <section className="ehr-client-summary-section animate-fadeIn">
+              <div className="ehr-client-summary-header">
+                <div>
+                  <h2 className="ehr-client-summary-title">CLIENT CHAT SUMMARY</h2>
+                  <p className="ehr-client-summary-subtitle">
+                    A quick view of what your client has shared between sessions.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="ehr-view-full-conv-btn"
+                  onClick={() => {
+                    const currentUrl = new URL(window.location.href)
+                    currentUrl.searchParams.set('open_chat', 'true')
+                    window.open(currentUrl.toString(), '_blank')
+                  }}
+                  title="Open full AI Chat in a new browser tab"
+                >
+                  <span>View full conversation</span>
+                  <span className="ehr-arrow-icon">→</span>
+                </button>
+              </div>
+
+              <div className="ehr-client-summary-card">
+                <p className="ehr-client-summary-text">
+                  Recent conversations suggest increased work-related anxiety and some sleep disruption. The client has been engaging consistently and reports that structured coping exercises have been helpful.
+                </p>
+              </div>
+            </section>
+
+            <div className="ehr-ca-divider" />
+
             {/* 2A. Primary Section: Running for this client */}
             <section className="ehr-ca-section">
               <div className="ehr-ca-sec-header">
@@ -507,19 +586,6 @@ export default function CareAssistant({
 
                           {!isEditing && (
                             <div className="ehr-ca-row-actions">
-                              {/* Eye icon: opens in-context centered preview modal */}
-                              <div className="ehr-view-chat-wrap">
-                                <button
-                                  type="button"
-                                  className="ehr-action-icon-btn"
-                                  onClick={() => handleOpenChatModal(auto)}
-                                  aria-label={`View chat for ${auto.name}`}
-                                >
-                                  <Eye size={15} />
-                                </button>
-                                <span className="ehr-view-chat-tooltip">View chat</span>
-                              </div>
-
                               <button
                                 type="button"
                                 className="ehr-action-btn"
@@ -608,184 +674,228 @@ export default function CareAssistant({
               )}
             </section>
 
-            {/* 2B. Secondary Section: Available Follow-ups */}
+            {/* 2B. Secondary Section: Available Follow-ups (Collapsible Dropdown) */}
             <section className="ehr-ca-section" style={{ marginTop: 24 }}>
-              <div className="ehr-ca-sec-header">
+              <div 
+                className="ehr-ca-sec-header ehr-ca-sec-header--collapsible"
+                onClick={() => setIsAvailableExpanded(!isAvailableExpanded)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsAvailableExpanded(!isAvailableExpanded); } }}
+                title={isAvailableExpanded ? 'Collapse available follow-ups' : 'Expand available follow-ups'}
+              >
                 <div>
-                  <h2 className="ehr-ca-sec-title">AVAILABLE FOLLOW-UPS</h2>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <h2 className="ehr-ca-sec-title">AVAILABLE FOLLOW-UPS</h2>
+                    <span className="ehr-ca-sec-badge">{availableAutomations.length} available</span>
+                  </div>
                   <p className="ehr-ca-sec-sub">Follow-ups you can enable for this client.</p>
                 </div>
+                <button
+                  type="button"
+                  className="ehr-ca-collapse-toggle-btn"
+                  aria-expanded={isAvailableExpanded}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsAvailableExpanded(!isAvailableExpanded)
+                  }}
+                >
+                  <span className="ehr-collapse-label">{isAvailableExpanded ? 'Hide options' : 'Show options'}</span>
+                  {isAvailableExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                </button>
               </div>
 
-              {availableAutomations.length === 0 ? (
-                <div className="ehr-ca-empty">All available follow-ups are enabled.</div>
-              ) : (
-                <div className="ehr-ca-list">
-                  {availableAutomations.map(auto => {
-                    const isEnabling = enablingId === auto.id
+              {isAvailableExpanded && (
+                availableAutomations.length === 0 ? (
+                  <div className="ehr-ca-empty animate-fadeIn">All available follow-ups are enabled.</div>
+                ) : (
+                  <div className="ehr-ca-list animate-fadeIn">
+                    {availableAutomations.map(auto => {
+                      const isEnabling = enablingId === auto.id
 
-                    return (
-                      <div key={auto.id} className="ehr-ca-row ehr-ca-row--available">
-                        <div className="ehr-ca-row-main">
-                          <div className="ehr-ca-row-left">
-                            <div className="ehr-ca-icon-wrap">
-                              {getIcon(auto.iconType)}
-                            </div>
-                            <div className="ehr-ca-row-text">
-                              <div className="ehr-ca-row-title-line">
-                                <span className="ehr-ca-row-name">{auto.name}</span>
-                                
-                                {/* Info Tooltip on Hover */}
-                                <div className="ehr-help-tooltip-wrap">
-                                  <button
-                                    type="button"
-                                    className="ehr-help-icon-btn"
-                                    aria-label={`Description for ${auto.name}`}
-                                  >
-                                    <HelpCircle size={13} />
-                                  </button>
-                                  <div className="ehr-help-tooltip-bubble">
-                                    <span className="ehr-tooltip-title">{auto.name}</span>
-                                    <p className="ehr-tooltip-text">{auto.description || auto.purpose}</p>
+                      return (
+                        <div key={auto.id} className="ehr-ca-row ehr-ca-row--available">
+                          <div className="ehr-ca-row-main">
+                            <div className="ehr-ca-row-left">
+                              <div className="ehr-ca-icon-wrap">
+                                {getIcon(auto.iconType)}
+                              </div>
+                              <div className="ehr-ca-row-text">
+                                <div className="ehr-ca-row-title-line">
+                                  <span className="ehr-ca-row-name">{auto.name}</span>
+                                  
+                                  {/* Info Tooltip on Hover */}
+                                  <div className="ehr-help-tooltip-wrap">
+                                    <button
+                                      type="button"
+                                      className="ehr-help-icon-btn"
+                                      aria-label={`Description for ${auto.name}`}
+                                    >
+                                      <HelpCircle size={13} />
+                                    </button>
+                                    <div className="ehr-help-tooltip-bubble">
+                                      <span className="ehr-tooltip-title">{auto.name}</span>
+                                      <p className="ehr-tooltip-text">{auto.description || auto.purpose}</p>
+                                    </div>
                                   </div>
                                 </div>
+                                <span className="ehr-ca-row-purpose">{auto.purpose}</span>
                               </div>
-                              <span className="ehr-ca-row-purpose">{auto.purpose}</span>
                             </div>
+
+                            {!isEnabling && (
+                              <div className="ehr-available-row-actions">
+                                <button
+                                  type="button"
+                                  className="ehr-btn-add"
+                                  onClick={() => handleStartEnabling(auto)}
+                                >
+                                  Add
+                                </button>
+                              </div>
+                            )}
                           </div>
 
-                          {!isEnabling && (
-                            <div className="ehr-available-row-actions">
-                              <button
-                                type="button"
-                                className="ehr-btn-add"
-                                onClick={() => handleStartAdd(auto)}
-                              >
-                                Add
-                              </button>
+                          {/* Inline Enable Configuration Form */}
+                          {isEnabling && (
+                            <div className="ehr-ca-inline-edit animate-fadeIn">
+                              <div className="ehr-edit-selects-row">
+                                <span className="ehr-timing-label">Send:</span>
+                                <select
+                                  className="ehr-select"
+                                  value={enableTiming}
+                                  onChange={e => setEnableTiming(e.target.value)}
+                                >
+                                  {auto.id === 1 && (
+                                    <>
+                                      <option value="Daily · 8:00 AM">Daily · 8:00 AM</option>
+                                      <option value="Daily · 9:00 AM">Daily · 9:00 AM</option>
+                                      <option value="Daily · 8:00 PM">Daily · 8:00 PM</option>
+                                      <option value="Twice daily · 8:00 AM & 8:00 PM">Twice daily · 8:00 AM & 8:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 2 && (
+                                    <>
+                                      <option value="Every evening · 8:00 PM">Every evening · 8:00 PM</option>
+                                      <option value="Every evening · 7:00 PM">Every evening · 7:00 PM</option>
+                                      <option value="Every morning · 9:00 AM">Every morning · 9:00 AM</option>
+                                      <option value="Twice daily · 9:00 AM & 8:00 PM">Twice daily · 9:00 AM & 8:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 3 && (
+                                    <>
+                                      <option value="24 hours before appointment">24 hours before appointment</option>
+                                      <option value="2 hours before appointment">2 hours before appointment</option>
+                                      <option value="48 hours before appointment">48 hours before appointment</option>
+                                      <option value="Morning of appointment (9:00 AM)">Morning of appointment (9:00 AM)</option>
+                                    </>
+                                  )}
+                                  {auto.id === 4 && (
+                                    <>
+                                      <option value="3 days before due date">3 days before due date</option>
+                                      <option value="1 day before due date">1 day before due date</option>
+                                      <option value="On invoice issue date">On invoice issue date</option>
+                                      <option value="Day after session">Day after session</option>
+                                    </>
+                                  )}
+                                  {auto.id === 5 && (
+                                    <>
+                                      <option value="Every 2 days · 6:00 PM">Every 2 days · 6:00 PM</option>
+                                      <option value="Daily · 7:00 PM">Daily · 7:00 PM</option>
+                                      <option value="After high-stress event trigger">After high-stress event trigger</option>
+                                      <option value="Weekly on Sunday · 5:00 PM">Weekly on Sunday · 5:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 6 && (
+                                    <>
+                                      <option value="Weekly on Friday · 10:00 AM">Weekly on Friday · 10:00 AM</option>
+                                      <option value="Weekly on Monday · 9:00 AM">Weekly on Monday · 9:00 AM</option>
+                                      <option value="Bi-weekly · Before session">Bi-weekly · Before session</option>
+                                      <option value="Monthly check-in">Monthly check-in</option>
+                                    </>
+                                  )}
+                                  {auto.id === 7 && (
+                                    <>
+                                      <option value="Daily at 9:30 PM">Daily at 9:30 PM</option>
+                                      <option value="Daily at 10:00 PM">Daily at 10:00 PM</option>
+                                      <option value="Every morning at 8:00 AM">Every morning at 8:00 AM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 8 && (
+                                    <>
+                                      <option value="Daily · 12:00 PM">Daily · 12:00 PM</option>
+                                      <option value="Daily · 3:00 PM">Daily · 3:00 PM</option>
+                                      <option value="Twice daily · 10:00 AM & 4:00 PM">Twice daily · 10:00 AM & 4:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 9 && (
+                                    <>
+                                      <option value="Every 3 days · 2:00 PM">Every 3 days · 2:00 PM</option>
+                                      <option value="Weekly on Wednesday · 11:00 AM">Weekly on Wednesday · 11:00 AM</option>
+                                      <option value="Twice a week · Tue & Fri">Twice a week · Tue & Fri</option>
+                                    </>
+                                  )}
+                                  {auto.id === 10 && (
+                                    <>
+                                      <option value="Daily · 8:30 PM">Daily · 8:30 PM</option>
+                                      <option value="Every morning · 8:00 AM">Every morning · 8:00 AM</option>
+                                      <option value="Every 2 days · 9:00 PM">Every 2 days · 9:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 11 && (
+                                    <>
+                                      <option value="Morning after session · 10:00 AM">Morning after session · 10:00 AM</option>
+                                      <option value="2 hours after session">2 hours after session</option>
+                                      <option value="Same evening · 8:00 PM">Same evening · 8:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 12 && (
+                                    <>
+                                      <option value="Daily · 1:00 PM">Daily · 1:00 PM</option>
+                                      <option value="Daily · 11:00 AM">Daily · 11:00 AM</option>
+                                      <option value="Twice daily · 10:00 AM & 3:00 PM">Twice daily · 10:00 AM & 3:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 13 && (
+                                    <>
+                                      <option value="Bi-weekly on Monday · 11:00 AM">Bi-weekly on Monday · 11:00 AM</option>
+                                      <option value="Monthly · 1st of month">Monthly · 1st of month</option>
+                                      <option value="Weekly on Wednesday · 2:00 PM">Weekly on Wednesday · 2:00 PM</option>
+                                    </>
+                                  )}
+                                  {auto.id === 14 && (
+                                    <>
+                                      <option value="Every 2 days · 11:00 AM">Every 2 days · 11:00 AM</option>
+                                      <option value="Daily · 10:00 AM">Daily · 10:00 AM</option>
+                                      <option value="Weekly on Saturday · 10:00 AM">Weekly on Saturday · 10:00 AM</option>
+                                    </>
+                                  )}
+                                </select>
+                              </div>
+
+                              <div className="ehr-edit-actions">
+                                <button
+                                  type="button"
+                                  className="ehr-btn-cancel"
+                                  onClick={() => setEnablingId(null)}
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  type="button"
+                                  className="ehr-btn-save"
+                                  onClick={() => handleConfirmAdd(auto)}
+                                >
+                                  Enable
+                                </button>
+                              </div>
                             </div>
                           )}
                         </div>
-
-                        {/* Inline Enable Form */}
-                        {isEnabling && (
-                          <div className="ehr-ca-inline-edit animate-fadeIn">
-                            <div className="ehr-edit-field-group">
-                              <label className="ehr-field-lbl">When should this run?</label>
-                              <select
-                                className="ehr-select"
-                                value={enableTiming}
-                                onChange={e => setEnableTiming(e.target.value)}
-                              >
-                                {auto.id === 3 && (
-                                  <>
-                                    <option value="24 hours before appointment">24 hours before appointment</option>
-                                    <option value="2 hours before appointment">2 hours before appointment</option>
-                                    <option value="Morning of appointment">Morning of appointment</option>
-                                  </>
-                                )}
-                                {auto.id === 4 && (
-                                  <>
-                                    <option value="3 days before renewal">3 days before renewal</option>
-                                    <option value="7 days before renewal">7 days before renewal</option>
-                                    <option value="On renewal date">On renewal date</option>
-                                  </>
-                                )}
-                                {auto.id === 5 && (
-                                  <>
-                                    <option value="Every 2 days · 6:00 PM">Every 2 days · 6:00 PM</option>
-                                    <option value="Daily · 7:00 PM">Daily · 7:00 PM</option>
-                                    <option value="Weekly on Sunday · 5:00 PM">Weekly on Sunday · 5:00 PM</option>
-                                  </>
-                                )}
-                                {auto.id === 6 && (
-                                  <>
-                                    <option value="Weekly on Friday · 10:00 AM">Weekly on Friday · 10:00 AM</option>
-                                    <option value="Bi-weekly on Monday · 9:00 AM">Bi-weekly on Monday · 9:00 AM</option>
-                                    <option value="Monthly · 1st of month">Monthly · 1st of month</option>
-                                  </>
-                                )}
-                                {auto.id === 7 && (
-                                  <>
-                                    <option value="Daily · 9:00 AM">Daily · 9:00 AM</option>
-                                    <option value="Daily · 8:00 AM">Daily · 8:00 AM</option>
-                                    <option value="Weekly on Monday · 9:00 AM">Weekly on Monday · 9:00 AM</option>
-                                  </>
-                                )}
-                                {auto.id === 8 && (
-                                  <>
-                                    <option value="Daily · 2:00 PM">Daily · 2:00 PM</option>
-                                    <option value="Daily · 8:00 PM">Daily · 8:00 PM</option>
-                                    <option value="Every morning · 7:30 AM">Every morning · 7:30 AM</option>
-                                  </>
-                                )}
-                                {auto.id === 9 && (
-                                  <>
-                                    <option value="Every 3 days · 4:00 PM">Every 3 days · 4:00 PM</option>
-                                    <option value="Weekly on Tuesday · 5:00 PM">Weekly on Tuesday · 5:00 PM</option>
-                                    <option value="Daily · 5:00 PM">Daily · 5:00 PM</option>
-                                  </>
-                                )}
-                                {auto.id === 10 && (
-                                  <>
-                                    <option value="Weekly on Sunday · 7:00 PM">Weekly on Sunday · 7:00 PM</option>
-                                    <option value="Daily · 8:30 PM">Daily · 8:30 PM</option>
-                                    <option value="Every Friday · 6:00 PM">Every Friday · 6:00 PM</option>
-                                  </>
-                                )}
-                                {auto.id === 11 && (
-                                  <>
-                                    <option value="Morning after session · 10:00 AM">Morning after session · 10:00 AM</option>
-                                    <option value="2 hours after session">2 hours after session</option>
-                                    <option value="Same evening · 8:00 PM">Same evening · 8:00 PM</option>
-                                  </>
-                                )}
-                                {auto.id === 12 && (
-                                  <>
-                                    <option value="Daily · 1:00 PM">Daily · 1:00 PM</option>
-                                    <option value="Daily · 11:00 AM">Daily · 11:00 AM</option>
-                                    <option value="Twice daily · 10:00 AM & 3:00 PM">Twice daily · 10:00 AM & 3:00 PM</option>
-                                  </>
-                                )}
-                                {auto.id === 13 && (
-                                  <>
-                                    <option value="Bi-weekly on Monday · 11:00 AM">Bi-weekly on Monday · 11:00 AM</option>
-                                    <option value="Monthly · 1st of month">Monthly · 1st of month</option>
-                                    <option value="Weekly on Wednesday · 2:00 PM">Weekly on Wednesday · 2:00 PM</option>
-                                  </>
-                                )}
-                                {auto.id === 14 && (
-                                  <>
-                                    <option value="Every 2 days · 11:00 AM">Every 2 days · 11:00 AM</option>
-                                    <option value="Daily · 10:00 AM">Daily · 10:00 AM</option>
-                                    <option value="Weekly on Saturday · 10:00 AM">Weekly on Saturday · 10:00 AM</option>
-                                  </>
-                                )}
-                              </select>
-                            </div>
-
-                            <div className="ehr-edit-actions">
-                              <button
-                                type="button"
-                                className="ehr-btn-cancel"
-                                onClick={() => setEnablingId(null)}
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                type="button"
-                                className="ehr-btn-save"
-                                onClick={() => handleConfirmAdd(auto)}
-                              >
-                                Enable
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
+                      )
+                    })}
+                  </div>
+                )
               )}
             </section>
 
