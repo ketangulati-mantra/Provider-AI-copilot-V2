@@ -20774,3 +20774,1161 @@
     border-radius: 10px !important;
   }
 }
+
+/* ============================================================
+   CARE ASSISTANT DETAILS & GUIDE DIALOG
+   ============================================================ */
+
+.ehr-row-info-pill-btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 1px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+  margin-left: 4px;
+}
+
+.ehr-row-info-pill-btn:hover {
+  color: #2563eb;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.ehr-info-dialog-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.4) !important;
+  backdrop-filter: blur(2px) !important;
+  z-index: 10050 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.ehr-info-dialog {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  width: 520px !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: 85vh !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  position: relative !important;
+  z-index: 10051 !important;
+}
+
+.ehr-info-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ehr-info-dialog-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ehr-info-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.ehr-info-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.ehr-info-dialog-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.ehr-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ehr-info-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.ehr-info-desc {
+  font-size: 0.78rem;
+  color: #1e293b;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.ehr-info-dialog-footer {
+  padding: 10px 18px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafbfc;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ============================================================
+   CARE ASSISTANT HOVER TOOLTIP ON '?' ICON
+   ============================================================ */
+
+.ehr-help-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.ehr-help-icon-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.15s ease;
+}
+
+.ehr-help-icon-btn:hover {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.ehr-help-tooltip-bubble {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.73rem;
+  line-height: 1.4;
+  width: 240px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+}
+
+.ehr-help-tooltip-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #0f172a transparent transparent transparent;
+}
+
+.ehr-help-tooltip-wrap:hover .ehr-help-tooltip-bubble,
+.ehr-help-tooltip-wrap:focus-within .ehr-help-tooltip-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.ehr-tooltip-title {
+  display: block;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #93c5fd;
+  margin-bottom: 2px;
+}
+
+.ehr-tooltip-text {
+  margin: 0;
+  color: #e2e8f0;
+}
+
+/* ============================================================
+   CARE ASSISTANT TOP IN-PAGE TOAST
+   ============================================================ */
+
+.ehr-ca-top-toast {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+.ehr-toast-icon-wrap {
+  width: 18px;
+  height: 18px;
+  background: #10b981;
+  color: #ffffff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ehr-toast-text-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
+.ehr-toast-title {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.ehr-toast-subtitle {
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.ehr-toast-undo-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #93c5fd;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: all 0.15s ease;
+}
+
+.ehr-toast-undo-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Hide obsolete bottom snackbar */
+.ehr-ca-bottom-snackbar {
+  display: none !important;
+}
+
+/* ============================================================
+   SUBTLE LEFT-SIDE REACT TOAST (FIXED VIEWPORT & HOVER-MANAGED)
+   ============================================================ */
+
+.ehr-hot-toaster-container {
+  top: 24px !important;
+  left: 24px !important;
+  z-index: 10060 !important;
+}
+
+.ehr-subtle-left-toast {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  min-width: 200px;
+  max-width: 320px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top left;
+}
+
+.ehr-subtle-left-toast:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.35);
+  border-color: #334155;
+}
+
+.ehr-left-toast-indicator {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.ehr-left-toast-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.ehr-left-toast-title {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.ehr-left-toast-sub {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  line-height: 1.2;
+}
+
+.ehr-left-toast-undo {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #93c5fd;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.ehr-left-toast-undo:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+/* Hide in-page top toast */
+.ehr-ca-top-toast {
+  display: none !important;
+}
+
+/* ============================================================
+   CARE ASSISTANT TOAST INSIDE COPILOT MODAL (LEFT SIDE)
+   ============================================================ */
+
+/* Anchor the Toaster container inside the Copilot modal container */
+.copilot-workspace-modal {
+  position: relative !important;
+}
+
+.copilot-care-assistant-panel {
+  position: relative !important;
+}
+
+.ehr-ca-layout {
+  position: relative !important;
+}
+
+/* Position toaster fixed relative to the copilot modal viewport */
+.ehr-hot-toaster-container {
+  position: absolute !important;
+  top: 14px !important;
+  left: 18px !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 10060 !important;
+  pointer-events: none !important;
+}
+
+.ehr-subtle-left-toast {
+  background: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  padding: 7px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15) !important;
+  color: #ffffff !important;
+  min-width: 180px !important;
+  max-width: 280px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ehr-subtle-left-toast:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 28px -4px rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.ehr-left-toast-indicator {
+  width: 6px !important;
+  height: 6px !important;
+  background: #10b981 !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.7) !important;
+}
+
+.ehr-left-toast-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  flex: 1 !important;
+}
+
+.ehr-left-toast-title {
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  color: #f8fafc !important;
+  line-height: 1.2 !important;
+}
+
+.ehr-left-toast-sub {
+  font-size: 0.66rem !important;
+  color: #94a3b8 !important;
+  line-height: 1.2 !important;
+}
+
+.ehr-left-toast-undo {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: none !important;
+  color: #93c5fd !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  padding: 3px 6px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-left-toast-undo:hover {
+  background: rgba(255, 255, 255, 0.24) !important;
+  color: #ffffff !important;
+}
+
+/* ============================================================
+   STICKY LIGHT-THEMED TOAST INSIDE CARE ASSISTANT PANEL
+   ============================================================ */
+
+.copilot-care-assistant-panel {
+  position: relative !important;
+}
+
+.ehr-ca-layout {
+  position: relative !important;
+}
+
+/* Fixed/Sticky to the top-left of the scroll layout */
+.ehr-hot-toaster-container {
+  position: sticky !important;
+  top: 14px !important;
+  left: 20px !important;
+  margin-left: 20px !important;
+  margin-top: 12px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.ehr-subtle-left-toast {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-left: 3.5px solid #2563eb !important;
+  border-radius: 8px !important;
+  padding: 8px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+  min-width: 220px !important;
+  max-width: 320px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ehr-subtle-left-toast:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 28px -4px rgba(15, 23, 42, 0.18) !important;
+  border-color: #cbd5e1 !important;
+  border-left-color: #1d4ed8 !important;
+}
+
+.ehr-left-toast-indicator {
+  width: 7px !important;
+  height: 7px !important;
+  background: #2563eb !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-left-toast-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  flex: 1 !important;
+}
+
+.ehr-left-toast-title {
+  font-size: 0.77rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.25 !important;
+}
+
+.ehr-left-toast-sub {
+  font-size: 0.69rem !important;
+  color: #64748b !important;
+  line-height: 1.25 !important;
+}
+
+.ehr-left-toast-undo {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #2563eb !important;
+  font-size: 0.67rem !important;
+  font-weight: 700 !important;
+  padding: 3px 7px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-left-toast-undo:hover {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border-color: #93c5fd !important;
+}
+
+/* ============================================================
+   STICKY LIGHT-THEMED TOAST AT TOP-RIGHT OF SCROLL LAYOUT
+   ============================================================ */
+
+.copilot-care-assistant-panel {
+  position: relative !important;
+}
+
+.ehr-ca-layout {
+  position: relative !important;
+}
+
+/* Position sticky to top-right of scrollable area with clean margins */
+.ehr-hot-toaster-container {
+  position: sticky !important;
+  top: 10px !important;
+  right: 14px !important;
+  left: auto !important;
+  margin-left: auto !important;
+  margin-right: 14px !important;
+  margin-top: 8px !important;
+  margin-bottom: -44px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ehr-subtle-right-toast {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-left: 3px solid #2563eb !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.12), 0 3px 6px -2px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+  min-width: 180px !important;
+  max-width: 280px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ehr-subtle-right-toast:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.18) !important;
+  border-color: #cbd5e1 !important;
+  border-left-color: #1d4ed8 !important;
+}
+
+.ehr-right-toast-indicator {
+  width: 6px !important;
+  height: 6px !important;
+  background: #2563eb !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-right-toast-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  flex: 1 !important;
+}
+
+.ehr-right-toast-title {
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.2 !important;
+}
+
+.ehr-right-toast-sub {
+  font-size: 0.67rem !important;
+  color: #64748b !important;
+  line-height: 1.2 !important;
+}
+
+.ehr-right-toast-undo {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #2563eb !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-right-toast-undo:hover {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border-color: #93c5fd !important;
+}
+
+/* ============================================================
+   CARE ASSISTANT STICKY TOAST (TOP-RIGHT WITH TIGHT MARGINS)
+   ============================================================ */
+
+.copilot-care-assistant-panel {
+  position: relative !important;
+}
+
+.ehr-ca-layout {
+  position: relative !important;
+}
+
+.ehr-hot-toaster-container {
+  position: sticky !important;
+  top: 6px !important;
+  right: 8px !important;
+  left: auto !important;
+  margin-left: auto !important;
+  margin-right: 8px !important;
+  margin-top: 2px !important;
+  margin-bottom: -38px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ehr-subtle-right-toast {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-left: 3px solid #2563eb !important;
+  border-radius: 6px !important;
+  padding: 5px 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.12), 0 2px 4px -2px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+  min-width: 170px !important;
+  max-width: 260px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.15s ease !important;
+}
+
+.ehr-subtle-right-toast:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 18px -3px rgba(15, 23, 42, 0.16) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.ehr-right-toast-indicator {
+  width: 6px !important;
+  height: 6px !important;
+  background: #2563eb !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-right-toast-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  flex: 1 !important;
+}
+
+.ehr-right-toast-title {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.2 !important;
+}
+
+.ehr-right-toast-sub {
+  font-size: 0.65rem !important;
+  color: #64748b !important;
+  line-height: 1.2 !important;
+}
+
+.ehr-right-toast-undo {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #2563eb !important;
+  font-size: 0.64rem !important;
+  font-weight: 700 !important;
+  padding: 2px 5px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-right-toast-undo:hover {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+/* ============================================================
+   FLUSH TOP-RIGHT STICKY TOAST (ZERO EXCESS GAPS & PROMINENT)
+   ============================================================ */
+
+.copilot-care-assistant-panel {
+  position: relative !important;
+}
+
+.ehr-ca-layout {
+  position: relative !important;
+}
+
+/* Zero top/right offset gaps, sits flush in the upper corner */
+.ehr-hot-toaster-container {
+  position: sticky !important;
+  top: 0px !important;
+  right: 0px !important;
+  left: auto !important;
+  margin-left: auto !important;
+  margin-right: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: -52px !important;
+  padding-right: 2px !important;
+  padding-top: 2px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ehr-subtle-right-toast {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-left: 4px solid #2563eb !important;
+  border-radius: 8px !important;
+  padding: 10px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.15), 0 4px 6px -2px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+  min-width: 240px !important;
+  max-width: 340px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ehr-subtle-right-toast:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 28px -4px rgba(15, 23, 42, 0.22) !important;
+  border-color: #cbd5e1 !important;
+  border-left-color: #1d4ed8 !important;
+}
+
+.ehr-right-toast-indicator {
+  width: 8px !important;
+  height: 8px !important;
+  background: #2563eb !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+.ehr-right-toast-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  flex: 1 !important;
+}
+
+.ehr-right-toast-title {
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.25 !important;
+}
+
+.ehr-right-toast-sub {
+  font-size: 0.73rem !important;
+  color: #64748b !important;
+  line-height: 1.25 !important;
+}
+
+.ehr-right-toast-undo {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #2563eb !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  padding: 4px 8px !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-right-toast-undo:hover {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border-color: #93c5fd !important;
+}
+
+/* ============================================================
+   CARE ASSISTANT HEADER & SAAS ON/OFF SWITCH
+   ============================================================ */
+
+.ehr-ca-header {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  margin-bottom: 20px !important;
+  position: relative !important;
+}
+
+.ehr-ca-header-left {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.ehr-ca-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.3 !important;
+}
+
+.ehr-ca-subtitle {
+  font-size: 0.78rem !important;
+  color: #64748b !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}
+
+.ehr-ca-header-right {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+.ehr-saas-toggle-switch {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 10px 4px 8px !important;
+  border-radius: 20px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+}
+
+.ehr-saas-toggle-switch.is-on {
+  background: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3) !important;
+}
+
+.ehr-saas-toggle-switch.is-off {
+  background: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+.ehr-saas-toggle-label {
+  letter-spacing: 0.05em !important;
+  font-size: 0.72rem !important;
+}
+
+.ehr-saas-toggle-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ============================================================
+   PERFECT CARE ASSISTANT HEADER & GLOBAL TOGGLE SWITCH
+   ============================================================ */
+
+.ehr-ca-layout {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  background: #ffffff !important;
+}
+
+.ehr-ca-container {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 20px 24px 40px !important;
+}
+
+/* 1. Header with Proper Hierarchy & Alignment */
+.ehr-ca-header {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 24px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.ehr-ca-header-left {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+.ehr-ca-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 0 6px 0 !important;
+  line-height: 1.25 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.ehr-ca-subtitle {
+  font-size: 0.84rem !important;
+  color: #64748b !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-width: 640px !important;
+}
+
+.ehr-ca-header-right {
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding-top: 2px !important;
+}
+
+/* Global Switch Control (ON [green] / OFF [gray]) */
+.ehr-saas-toggle-switch {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 4px 10px 4px 10px !important;
+  border-radius: 20px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  font-weight: 700 !important;
+  font-size: 0.76rem !important;
+  border: 1px solid transparent !important;
+}
+
+.ehr-saas-toggle-switch.is-on {
+  background: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3) !important;
+  border-color: #047857 !important;
+}
+
+.ehr-saas-toggle-switch.is-off {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  border-color: #cbd5e1 !important;
+}
+
+.ehr-saas-toggle-label {
+  letter-spacing: 0.04em !important;
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
+}
+
+.ehr-saas-toggle-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+  display: inline-block !important;
+}
+
+.ehr-saas-toggle-switch.is-off .ehr-saas-toggle-thumb {
+  background: #94a3b8 !important;
+}
+
+/* ============================================================
+   PILL TOGGLE SWITCH MATCHING USER'S SCREENSHOT
+   ============================================================ */
+
+.ehr-saas-toggle-switch {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 3px 4px 3px 9px !important;
+  border-radius: 20px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.2s ease !important;
+  font-weight: 700 !important;
+  height: 26px !important;
+}
+
+.ehr-saas-toggle-switch.is-on {
+  background: #059669 !important;
+  color: #ffffff !important;
+}
+
+.ehr-saas-toggle-switch.is-off {
+  background: #94a3b8 !important;
+  color: #ffffff !important;
+  padding: 3px 9px 3px 4px !important;
+  flex-direction: row-reverse !important;
+}
+
+.ehr-saas-toggle-label {
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.03em !important;
+}
+
+.ehr-saas-toggle-thumb {
+  width: 18px !important;
+  height: 18px !important;
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+  display: inline-block !important;
+}
+
+/* ============================================================
+   FIX HEADER ALIGNMENT (REMOVE NEGATIVE MARGIN OVERLAP)
+   ============================================================ */
+
+/* The toaster floats cleanly with absolute positioning inside the layout without consuming space */
+.ehr-hot-toaster-container {
+  position: absolute !important;
+  top: 16px !important;
+  right: 24px !important;
+  left: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 10060 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+/* Container has clean top padding below tab bar */
+.ehr-ca-layout {
+  position: relative !important;
+  padding-top: 12px !important;
+}
+
+.ehr-ca-container {
+  padding: 16px 24px 40px !important;
+}
+
+.ehr-ca-header {
+  margin-top: 4px !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 14px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.ehr-ca-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.3 !important;
+  margin: 0 0 6px 0 !important;
+}
+
+.ehr-ca-subtitle {
+  font-size: 0.84rem !important;
+  color: #64748b !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}

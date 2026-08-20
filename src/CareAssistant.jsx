@@ -1,5 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import { Pill, Smile, Calendar, CreditCard, Eye } from 'lucide-react'
+import React, { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import {
+  Pill,
+  Smile,
+  Calendar,
+  CreditCard,
+  Activity,
+  CheckSquare,
+  FileText,
+  Eye,
+  Heart,
+  Moon,
+  Wind,
+  Sparkles,
+  BookOpen,
+  Coffee,
+  ShieldAlert,
+  Zap,
+  Target,
+  HelpCircle,
+  Check,
+  RotateCcw
+} from 'lucide-react'
 import CareAssistantChatModal from './components/CareAssistantChatModal'
 
 export const DEFAULT_AUTOMATIONS = [
@@ -7,6 +29,7 @@ export const DEFAULT_AUTOMATIONS = [
     id: 1,
     name: 'Medication Reminder',
     purpose: 'Help client stay consistent with medication schedule.',
+    description: 'Prompts client on prescribed doses and notes timing adherence between psychiatric reviews.',
     status: 'Active',
     frequency: 'Daily · 8:00 AM',
     schedule: 'Daily · 8:00 AM',
@@ -16,6 +39,7 @@ export const DEFAULT_AUTOMATIONS = [
     id: 2,
     name: 'Daily Mood Check-in',
     purpose: 'Check in about mood and well-being between sessions.',
+    description: 'Collects 1-5 emotional scores and notes somatic calm or anxiety spikes between visits.',
     status: 'Active',
     frequency: 'Every evening · 8:00 PM',
     schedule: 'Every evening · 8:00 PM',
@@ -24,7 +48,8 @@ export const DEFAULT_AUTOMATIONS = [
   {
     id: 3,
     name: 'Session Reminder',
-    purpose: 'Before upcoming appointments',
+    purpose: 'Send appointment notification before upcoming sessions.',
+    description: 'Delivers appointment prep and telehealth room link 24 hours ahead to reduce no-shows.',
     status: 'Off',
     frequency: '24 hours before appointment',
     schedule: '24 hours before appointment',
@@ -32,12 +57,113 @@ export const DEFAULT_AUTOMATIONS = [
   },
   {
     id: 4,
-    name: 'Payment & Renewal',
-    purpose: 'Upcoming package/payment reminders',
+    name: 'Payment & Renewal Reminder',
+    purpose: 'Notify client before upcoming package renewal or invoice due date.',
+    description: 'Sends advance notice before subscription renewal or credit expiry to avoid care disruption.',
     status: 'Off',
     frequency: '3 days before renewal',
     schedule: '3 days before renewal',
     iconType: 'billing'
+  },
+  {
+    id: 5,
+    name: 'CBT Thought Log & Journaling',
+    purpose: 'Prompt client to log automatic thoughts and complete cognitive restructuring.',
+    description: 'Prompts client to identify cognitive distortions and log structured thought records.',
+    status: 'Off',
+    frequency: 'Every 2 days · 6:00 PM',
+    schedule: 'Every 2 days · 6:00 PM',
+    iconType: 'homework'
+  },
+  {
+    id: 6,
+    name: 'Weekly Clinical Screening (PHQ-9 / GAD-7)',
+    purpose: 'Send standard depression and anxiety assessments before weekly review.',
+    description: 'Administers interactive symptom screeners and calculates objective progress scores.',
+    status: 'Off',
+    frequency: 'Weekly on Friday · 10:00 AM',
+    schedule: 'Weekly on Friday · 10:00 AM',
+    iconType: 'assessment'
+  },
+  {
+    id: 7,
+    name: 'Sleep Hygiene & Rest Tracker',
+    purpose: 'Track sleep hours, bedtime consistency, and nighttime awakenings.',
+    description: 'Checks daily sleep duration, latency, and nighttime awakenings for insomnia tracking.',
+    status: 'Off',
+    frequency: 'Daily · 9:00 AM',
+    schedule: 'Daily · 9:00 AM',
+    iconType: 'sleep'
+  },
+  {
+    id: 8,
+    name: 'Mindfulness & Breathing Exercise',
+    purpose: 'Send guided diaphragmatic or box breathing prompt for somatic calm.',
+    description: 'Sends a 3-minute guided breathing reset to regulate autonomic panic and work tension.',
+    status: 'Off',
+    frequency: 'Daily · 2:00 PM',
+    schedule: 'Daily · 2:00 PM',
+    iconType: 'breath'
+  },
+  {
+    id: 9,
+    name: 'Exposure Therapy Practice Check',
+    purpose: 'Encourage client to practice agreed hierarchy exposure exercises.',
+    description: 'Prompts agreed ERP exposure practice and records Subjective Units of Distress (SUDS).',
+    status: 'Off',
+    frequency: 'Every 3 days · 4:00 PM',
+    schedule: 'Every 3 days · 4:00 PM',
+    iconType: 'target'
+  },
+  {
+    id: 10,
+    name: 'Gratitude & Wins Reflection',
+    purpose: 'Encourage positive psychology focus by listing 3 wins or positive moments.',
+    description: 'Invites positive reappraisal and counters rumination by recording 3 positive wins.',
+    status: 'Off',
+    frequency: 'Weekly on Sunday · 7:00 PM',
+    schedule: 'Weekly on Sunday · 7:00 PM',
+    iconType: 'heart'
+  },
+  {
+    id: 11,
+    name: 'Post-Session Takeaways Summary',
+    purpose: 'Prompt client to review key takeaways and goals from the last appointment.',
+    description: 'Captures key commitments and therapy takeaways the morning following an appointment.',
+    status: 'Off',
+    frequency: 'Morning after session · 10:00 AM',
+    schedule: 'Morning after session · 10:00 AM',
+    iconType: 'book'
+  },
+  {
+    id: 12,
+    name: 'Hydration & Nutrition Check-in',
+    purpose: 'Gentle wellness check for basic somatic self-care adherence.',
+    description: 'Midday check on baseline physiological health: meals, hydration, and movement breaks.',
+    status: 'Off',
+    frequency: 'Daily · 1:00 PM',
+    schedule: 'Daily · 1:00 PM',
+    iconType: 'coffee'
+  },
+  {
+    id: 13,
+    name: 'Relapse Prevention & Crisis Coping Plan',
+    purpose: 'Check-in on trigger awareness and remind client of agreed emergency contacts.',
+    description: 'Confirms trigger awareness and verifies access to personalized crisis coping steps.',
+    status: 'Off',
+    frequency: 'Bi-weekly on Monday · 11:00 AM',
+    schedule: 'Bi-weekly on Monday · 11:00 AM',
+    iconType: 'shield'
+  },
+  {
+    id: 14,
+    name: 'Behavioral Activation & Activity Scheduling',
+    purpose: 'Encourage participation in scheduled pleasant or mastery activities.',
+    description: 'Checks in on planned mastery or pleasant activities to counter depressive inertia.',
+    status: 'Off',
+    frequency: 'Every 2 days · 11:00 AM',
+    schedule: 'Every 2 days · 11:00 AM',
+    iconType: 'zap'
   }
 ]
 
@@ -51,7 +177,7 @@ export default function CareAssistant({
   const [editingId, setEditingId] = useState(null)
   const [enablingId, setEnablingId] = useState(null)
 
-  // In-Context Chat Modal State (Does NOT leave Care Assistant)
+  // In-Context Chat Modal State
   const [selectedChatAuto, setSelectedChatAuto] = useState(null)
   const [isChatModalOpen, setIsChatModalOpen] = useState(false)
 
@@ -62,24 +188,45 @@ export default function CareAssistant({
   // Enable states
   const [enableTiming, setEnableTiming] = useState('24 hours before appointment')
 
-  // Snackbar Toast with Undo
-  const [snackbar, setSnackbar] = useState(null)
-
-  useEffect(() => {
-    if (!snackbar) return
-    const timer = setTimeout(() => {
-      setSnackbar(null)
-    }, 4500)
-    return () => clearTimeout(timer)
-  }, [snackbar])
-
-  const showSnackbar = (title, subtitle = null, showUndo = false) => {
-    setSnackbar({ title, subtitle, showUndo })
+  // Subtle React-Hot-Toast Helper on Right Side (Replaces previous toast, no nesting/stacking)
+  const triggerToast = (title, subtitle = null) => {
+    toast.dismiss()
+    toast.custom(
+      (t) => (
+        <div
+          className={`ehr-subtle-right-toast ${t.visible ? 'is-visible' : 'is-hidden'}`}
+          onClick={() => toast.dismiss(t.id)}
+        >
+          <div className="ehr-right-toast-indicator" />
+          <div className="ehr-right-toast-body">
+            <span className="ehr-right-toast-title">{title}</span>
+            {subtitle && <span className="ehr-right-toast-sub">{subtitle}</span>}
+          </div>
+        </div>
+      ),
+      {
+        id: 'ca-action-toast',
+        duration: 3000,
+        position: 'top-right'
+      }
+    )
   }
 
-  const activeAutomations = automations.filter(a => a.status === 'Active' || a.status === 'Paused')
-  const availableAutomations = automations.filter(a => a.status === 'Off' || !a.status)
-  const activeCount = automations.filter(a => a.status === 'Active').length
+  // Merge full 14 options
+  const currentAutomations = DEFAULT_AUTOMATIONS.map(def => {
+    const found = (automations || []).find(a => a.id === def.id || a.name === def.name)
+    if (!found) return def
+    return {
+      ...def,
+      ...found,
+      description: def.description,
+      purpose: def.purpose
+    }
+  })
+
+  const activeAutomations = currentAutomations.filter(a => a.status === 'Active' || a.status === 'Paused')
+  const availableAutomations = currentAutomations.filter(a => a.status === 'Off' || !a.status)
+  const activeCount = currentAutomations.filter(a => a.status === 'Active').length
 
   const getIcon = (type) => {
     switch (type) {
@@ -91,8 +238,28 @@ export default function CareAssistant({
         return <Calendar size={15} className="ehr-icon" />
       case 'billing':
         return <CreditCard size={15} className="ehr-icon" />
+      case 'homework':
+        return <CheckSquare size={15} className="ehr-icon" />
+      case 'assessment':
+        return <Activity size={15} className="ehr-icon" />
+      case 'sleep':
+        return <Moon size={15} className="ehr-icon" />
+      case 'breath':
+        return <Wind size={15} className="ehr-icon" />
+      case 'target':
+        return <Target size={15} className="ehr-icon" />
+      case 'heart':
+        return <Heart size={15} className="ehr-icon" />
+      case 'book':
+        return <BookOpen size={15} className="ehr-icon" />
+      case 'coffee':
+        return <Coffee size={15} className="ehr-icon" />
+      case 'shield':
+        return <ShieldAlert size={15} className="ehr-icon" />
+      case 'zap':
+        return <Zap size={15} className="ehr-icon" />
       default:
-        return <Pill size={15} className="ehr-icon" />
+        return <Sparkles size={15} className="ehr-icon" />
     }
   }
 
@@ -101,15 +268,10 @@ export default function CareAssistant({
     if (onToggleGlobal) onToggleGlobal(newState)
 
     if (!newState) {
-      showSnackbar('Care Assistant turned off', 'Automated follow-ups for this client have stopped.', true)
+      triggerToast('Care Assistant turned off', 'Automated follow-ups paused')
     } else {
-      showSnackbar('Care Assistant enabled', "Your client's configured follow-ups are active again.", false)
+      triggerToast('Care Assistant enabled', 'Active follow-ups resumed')
     }
-  }
-
-  const handleUndo = () => {
-    if (onToggleGlobal) onToggleGlobal(true)
-    setSnackbar(null)
   }
 
   const handleOpenChatModal = (auto) => {
@@ -148,7 +310,7 @@ export default function CareAssistant({
       onUpdateAutomation(updated)
     }
     setEditingId(null)
-    showSnackbar(`Updated ${auto.name}`)
+    triggerToast(`Schedule updated`, `${auto.name} · ${computed}`)
   }
 
   const handleStartAdd = (auto) => {
@@ -156,8 +318,30 @@ export default function CareAssistant({
     setEditingId(null)
     if (auto.id === 3) {
       setEnableTiming('24 hours before appointment')
-    } else {
+    } else if (auto.id === 4) {
       setEnableTiming('3 days before renewal')
+    } else if (auto.id === 5) {
+      setEnableTiming('Every 2 days · 6:00 PM')
+    } else if (auto.id === 6) {
+      setEnableTiming('Weekly on Friday · 10:00 AM')
+    } else if (auto.id === 7) {
+      setEnableTiming('Daily · 9:00 AM')
+    } else if (auto.id === 8) {
+      setEnableTiming('Daily · 2:00 PM')
+    } else if (auto.id === 9) {
+      setEnableTiming('Every 3 days · 4:00 PM')
+    } else if (auto.id === 10) {
+      setEnableTiming('Weekly on Sunday · 7:00 PM')
+    } else if (auto.id === 11) {
+      setEnableTiming('Morning after session · 10:00 AM')
+    } else if (auto.id === 12) {
+      setEnableTiming('Daily · 1:00 PM')
+    } else if (auto.id === 13) {
+      setEnableTiming('Bi-weekly on Monday · 11:00 AM')
+    } else if (auto.id === 14) {
+      setEnableTiming('Every 2 days · 11:00 AM')
+    } else {
+      setEnableTiming('Every day · 9:00 AM')
     }
   }
 
@@ -174,7 +358,7 @@ export default function CareAssistant({
       onToggleStatus(auto.id, 'Active')
     }
     setEnablingId(null)
-    showSnackbar(`${auto.name} enabled`)
+    triggerToast(`${auto.name} enabled`, `Running for this client`)
   }
 
   const handleTogglePause = (auto) => {
@@ -184,38 +368,38 @@ export default function CareAssistant({
     } else if (onUpdateAutomation) {
       onUpdateAutomation({ ...auto, status: newStatus })
     }
-    showSnackbar(newStatus === 'Active' ? `${auto.name} resumed` : `${auto.name} paused`)
+    triggerToast(newStatus === 'Active' ? `${auto.name} resumed` : `${auto.name} paused`)
+  }
+
+  const handleDisableAutomation = (auto) => {
+    if (onToggleStatus) {
+      onToggleStatus(auto.id, 'Off')
+    } else if (onUpdateAutomation) {
+      onUpdateAutomation({ ...auto, status: 'Off' })
+    }
+    triggerToast(`${auto.name} disabled`, 'Moved to available follow-ups')
   }
 
   return (
     <div className="ehr-ca-layout animate-fadeIn">
-      {/* ── In-Context Chat Modal Preview (Opens right over Care Assistant) ── */}
+      {/* ── React Hot Toast Container (Fixed top-left with hover pause) ── */}
+      <Toaster position="top-right"
+        containerClassName="ehr-hot-toaster-container"
+        toastOptions={{
+          style: {
+            background: 'transparent',
+            boxShadow: 'none',
+            padding: 0
+          }
+        }}
+      />
+
+      {/* ── In-Context Chat Modal Preview ── */}
       <CareAssistantChatModal
         automation={selectedChatAuto}
         isOpen={isChatModalOpen}
         onClose={handleCloseChatModal}
       />
-
-      {/* ── Bottom Snackbar with Undo ── */}
-      {snackbar && (
-        <div className="ehr-ca-bottom-snackbar animate-slideUp">
-          <div className="ehr-snackbar-content">
-            <div className="ehr-snackbar-title">{snackbar.title}</div>
-            {snackbar.subtitle && (
-              <div className="ehr-snackbar-subtitle">{snackbar.subtitle}</div>
-            )}
-          </div>
-          {snackbar.showUndo && (
-            <button
-              type="button"
-              className="ehr-snackbar-undo-btn"
-              onClick={handleUndo}
-            >
-              Undo
-            </button>
-          )}
-        </div>
-      )}
 
       <div className="ehr-ca-container">
         {/* 1. Header */}
@@ -256,7 +440,7 @@ export default function CareAssistant({
               className="ehr-ca-btn-turn-on"
               onClick={() => {
                 if (onToggleGlobal) onToggleGlobal(true)
-                showSnackbar('Care Assistant enabled', "Your client's configured follow-ups are active again.", false)
+                triggerToast('Care Assistant enabled', "Your client's configured follow-ups are active again.")
               }}
             >
               Turn on Care Assistant
@@ -292,6 +476,22 @@ export default function CareAssistant({
                             <div className="ehr-ca-row-text">
                               <div className="ehr-ca-row-title-line">
                                 <span className="ehr-ca-row-name">{auto.name}</span>
+                                
+                                {/* Info Tooltip on Hover */}
+                                <div className="ehr-help-tooltip-wrap">
+                                  <button
+                                    type="button"
+                                    className="ehr-help-icon-btn"
+                                    aria-label={`Description for ${auto.name}`}
+                                  >
+                                    <HelpCircle size={13} />
+                                  </button>
+                                  <div className="ehr-help-tooltip-bubble">
+                                    <span className="ehr-tooltip-title">{auto.name}</span>
+                                    <p className="ehr-tooltip-text">{auto.description || auto.purpose}</p>
+                                  </div>
+                                </div>
+
                                 <span className={`ehr-status-dot-label ${isActive ? 'is-active' : 'is-paused'}`}>
                                   <span className="ehr-dot" />
                                   <span>{isActive ? 'Active' : 'Paused'}</span>
@@ -335,6 +535,15 @@ export default function CareAssistant({
                               >
                                 {isActive ? 'Pause' : 'Resume'}
                               </button>
+                              <span className="ehr-action-sep">·</span>
+                              <button
+                                type="button"
+                                className="ehr-action-btn is-disable"
+                                onClick={() => handleDisableAutomation(auto)}
+                                title="Turn off and move to available"
+                              >
+                                Disable
+                              </button>
                             </div>
                           )}
                         </div>
@@ -350,7 +559,11 @@ export default function CareAssistant({
                               >
                                 <option value="Every day">Every day</option>
                                 <option value="Every evening">Every evening</option>
+                                <option value="Every 2 days">Every 2 days</option>
+                                <option value="Every 3 days">Every 3 days</option>
                                 <option value="Weekly on Monday">Weekly on Monday</option>
+                                <option value="Weekly on Friday">Weekly on Friday</option>
+                                <option value="Weekly on Sunday">Weekly on Sunday</option>
                               </select>
 
                               <select
@@ -359,8 +572,13 @@ export default function CareAssistant({
                                 onChange={e => setConfigTime(e.target.value)}
                               >
                                 <option value="8:00 AM">8:00 AM</option>
-                                <option value="12:00 PM">12:00 PM</option>
+                                <option value="9:00 AM">9:00 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="1:00 PM">1:00 PM</option>
+                                <option value="2:00 PM">2:00 PM</option>
+                                <option value="4:00 PM">4:00 PM</option>
                                 <option value="6:00 PM">6:00 PM</option>
+                                <option value="7:00 PM">7:00 PM</option>
                                 <option value="8:00 PM">8:00 PM</option>
                               </select>
                             </div>
@@ -414,19 +632,38 @@ export default function CareAssistant({
                               {getIcon(auto.iconType)}
                             </div>
                             <div className="ehr-ca-row-text">
-                              <span className="ehr-ca-row-name">{auto.name}</span>
+                              <div className="ehr-ca-row-title-line">
+                                <span className="ehr-ca-row-name">{auto.name}</span>
+                                
+                                {/* Info Tooltip on Hover */}
+                                <div className="ehr-help-tooltip-wrap">
+                                  <button
+                                    type="button"
+                                    className="ehr-help-icon-btn"
+                                    aria-label={`Description for ${auto.name}`}
+                                  >
+                                    <HelpCircle size={13} />
+                                  </button>
+                                  <div className="ehr-help-tooltip-bubble">
+                                    <span className="ehr-tooltip-title">{auto.name}</span>
+                                    <p className="ehr-tooltip-text">{auto.description || auto.purpose}</p>
+                                  </div>
+                                </div>
+                              </div>
                               <span className="ehr-ca-row-purpose">{auto.purpose}</span>
                             </div>
                           </div>
 
                           {!isEnabling && (
-                            <button
-                              type="button"
-                              className="ehr-btn-add"
-                              onClick={() => handleStartAdd(auto)}
-                            >
-                              Add
-                            </button>
+                            <div className="ehr-available-row-actions">
+                              <button
+                                type="button"
+                                className="ehr-btn-add"
+                                onClick={() => handleStartAdd(auto)}
+                              >
+                                Add
+                              </button>
+                            </div>
                           )}
                         </div>
 
@@ -440,17 +677,88 @@ export default function CareAssistant({
                                 value={enableTiming}
                                 onChange={e => setEnableTiming(e.target.value)}
                               >
-                                {auto.id === 3 ? (
+                                {auto.id === 3 && (
                                   <>
                                     <option value="24 hours before appointment">24 hours before appointment</option>
                                     <option value="2 hours before appointment">2 hours before appointment</option>
                                     <option value="Morning of appointment">Morning of appointment</option>
                                   </>
-                                ) : (
+                                )}
+                                {auto.id === 4 && (
                                   <>
                                     <option value="3 days before renewal">3 days before renewal</option>
                                     <option value="7 days before renewal">7 days before renewal</option>
                                     <option value="On renewal date">On renewal date</option>
+                                  </>
+                                )}
+                                {auto.id === 5 && (
+                                  <>
+                                    <option value="Every 2 days · 6:00 PM">Every 2 days · 6:00 PM</option>
+                                    <option value="Daily · 7:00 PM">Daily · 7:00 PM</option>
+                                    <option value="Weekly on Sunday · 5:00 PM">Weekly on Sunday · 5:00 PM</option>
+                                  </>
+                                )}
+                                {auto.id === 6 && (
+                                  <>
+                                    <option value="Weekly on Friday · 10:00 AM">Weekly on Friday · 10:00 AM</option>
+                                    <option value="Bi-weekly on Monday · 9:00 AM">Bi-weekly on Monday · 9:00 AM</option>
+                                    <option value="Monthly · 1st of month">Monthly · 1st of month</option>
+                                  </>
+                                )}
+                                {auto.id === 7 && (
+                                  <>
+                                    <option value="Daily · 9:00 AM">Daily · 9:00 AM</option>
+                                    <option value="Daily · 8:00 AM">Daily · 8:00 AM</option>
+                                    <option value="Weekly on Monday · 9:00 AM">Weekly on Monday · 9:00 AM</option>
+                                  </>
+                                )}
+                                {auto.id === 8 && (
+                                  <>
+                                    <option value="Daily · 2:00 PM">Daily · 2:00 PM</option>
+                                    <option value="Daily · 8:00 PM">Daily · 8:00 PM</option>
+                                    <option value="Every morning · 7:30 AM">Every morning · 7:30 AM</option>
+                                  </>
+                                )}
+                                {auto.id === 9 && (
+                                  <>
+                                    <option value="Every 3 days · 4:00 PM">Every 3 days · 4:00 PM</option>
+                                    <option value="Weekly on Tuesday · 5:00 PM">Weekly on Tuesday · 5:00 PM</option>
+                                    <option value="Daily · 5:00 PM">Daily · 5:00 PM</option>
+                                  </>
+                                )}
+                                {auto.id === 10 && (
+                                  <>
+                                    <option value="Weekly on Sunday · 7:00 PM">Weekly on Sunday · 7:00 PM</option>
+                                    <option value="Daily · 8:30 PM">Daily · 8:30 PM</option>
+                                    <option value="Every Friday · 6:00 PM">Every Friday · 6:00 PM</option>
+                                  </>
+                                )}
+                                {auto.id === 11 && (
+                                  <>
+                                    <option value="Morning after session · 10:00 AM">Morning after session · 10:00 AM</option>
+                                    <option value="2 hours after session">2 hours after session</option>
+                                    <option value="Same evening · 8:00 PM">Same evening · 8:00 PM</option>
+                                  </>
+                                )}
+                                {auto.id === 12 && (
+                                  <>
+                                    <option value="Daily · 1:00 PM">Daily · 1:00 PM</option>
+                                    <option value="Daily · 11:00 AM">Daily · 11:00 AM</option>
+                                    <option value="Twice daily · 10:00 AM & 3:00 PM">Twice daily · 10:00 AM & 3:00 PM</option>
+                                  </>
+                                )}
+                                {auto.id === 13 && (
+                                  <>
+                                    <option value="Bi-weekly on Monday · 11:00 AM">Bi-weekly on Monday · 11:00 AM</option>
+                                    <option value="Monthly · 1st of month">Monthly · 1st of month</option>
+                                    <option value="Weekly on Wednesday · 2:00 PM">Weekly on Wednesday · 2:00 PM</option>
+                                  </>
+                                )}
+                                {auto.id === 14 && (
+                                  <>
+                                    <option value="Every 2 days · 11:00 AM">Every 2 days · 11:00 AM</option>
+                                    <option value="Daily · 10:00 AM">Daily · 10:00 AM</option>
+                                    <option value="Weekly on Saturday · 10:00 AM">Weekly on Saturday · 10:00 AM</option>
                                   </>
                                 )}
                               </select>
